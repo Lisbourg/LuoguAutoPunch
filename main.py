@@ -11,7 +11,6 @@ def luogu_punch():
     # ---------------------------------------------------------
     # ⚠️ 这里填入你的真实 Cookie 字符串
     # cookie_str = os.getenv("LUOGU_COOKIE")
-    # cookie_str = "_uid=1841278; __client_id=972581a2cbd6205a690f2a8d52294164c6bd899f; C3VK=bd9bb1"
 
     cookie_str=os.getenv("LUOGU_COOKIE")
 
@@ -68,3 +67,4 @@ def luogu_punch():
 if __name__ == "__main__":
 
     luogu_punch()
+
