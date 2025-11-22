@@ -113,6 +113,6 @@ jobs:
           (本邮件由 GitHub Actions 自动发送)
         
         # 👇 3. 修改收件人 (改成你自己的！)
-        to: 123456@qq.com
+        to: 3918967988@qq.com
         from: 打卡助手 <${{ secrets.EMAIL_USERNAME }}>
         content_type: text/plain
