@@ -151,37 +151,51 @@ class JuejinBrowser:
             try:
                 print("🌍 正在打开抽奖页面...")
                 page.goto("https://juejin.cn/user/center/lottery", timeout=30000)
-                time.sleep(3)
+                time.sleep(4) # 多等一秒，等那个动态数字加载出来
                 
-                # 1. 尝试寻找“免费抽奖”按钮 (精确匹配)
-                free_draw_btn = page.get_by_text("免费抽奖", exact=True)
+                # 🛠️【修复点】针对截图优化匹配逻辑
+                # 截图显示按钮文字是 "免费抽奖次数：1次"
+                # 所以我们查找包含 "免费抽奖次数" 的元素即可
+                free_draw_btn = page.get_by_text("免费抽奖次数")
                 
-                if free_draw_btn.is_visible():
-                    print("👆 发现免费次数，点击抽奖...")
-                    free_draw_btn.click()
+                # 如果找不到 "免费抽奖次数"，再试一下 "免费抽奖" (模糊匹配，去掉 exact=True)
+                if free_draw_btn.count() == 0:
+                    free_draw_btn = page.get_by_text("免费抽奖")
+
+                if free_draw_btn.count() > 0 and free_draw_btn.first.is_visible():
+                    print("👆 发现免费次数按钮，点击抽奖...")
+                    free_draw_btn.first.click()
+                    
+                    # 点击后可能会弹窗，我们简单等待一下
                     time.sleep(3)
                     msg_log.append("🎉 抽奖: 点击成功")
                 
                 else:
-                    # 2. 检查是否变成了“单抽”或“200”
+                    # 2. 如果没找到免费按钮，检查是不是变成了“单抽”
+                    # 结合之前的修复，使用 count() > 0 防止报错
                     has_paid_btn = page.get_by_text("单抽").count() > 0
                     has_cost_text = page.get_by_text("200", exact=True).count() > 0
                     
                     if has_paid_btn or has_cost_text:
-                        print("✅ 检测到今日已抽奖 (付费按钮已显示)")
+                        print("✅ 检测到付费按钮 (今日已抽)")
                         msg_log.append("✅ 抽奖: 今日已完成")
                     else:
-                        # 最后的保底：如果既没免费也没单抽，可能是页面改版，但也算“没报错”
-                        print("⚠️ 未找到抽奖按钮 (可能已完成)")
-                        msg_log.append("⚠️ 抽奖: 状态未知 (未找到按钮)")
+                        print("⚠️ 未找到抽奖按钮")
+                        # 截图保存，方便后续排查 (云端 Artifacts 可见)
+                        try:
+                            page.screenshot(path="debug_lottery_fail.png")
+                            print("📸 已截图: debug_lottery_fail.png")
+                        except: pass
+                        
+                        msg_log.append("⚠️ 抽奖: 按钮未找到 (可能需人工检查)")
                         
             except Exception as e:
                 print(f"❌ 抽奖出错: {e}")
                 if "Timeout" not in str(e):
                     msg_log.append(f"❌ 抽奖异常: {e}")
                 else:
-                     msg_log.append("⚠️ 抽奖: 操作超时 (可能已完成)")
-
+                     msg_log.append("⚠️ 抽奖: 操作超时")
+                    
             browser.close()
             print("🏁 浏览器关闭")
             
@@ -194,5 +208,6 @@ class JuejinBrowser:
 
 if __name__ == "__main__":
     JuejinBrowser().run()
+
 
 
