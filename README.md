@@ -4,7 +4,10 @@
 
 此仓库旨在通过 Github Actions 帮助您自动在洛谷打卡。
 
+**为遵循 GitHub 相关服务条例，`.yml` 文件自动化运行仅处于学习测试目的，现在已经暂停使用。**
+
 （掘金社区打卡功能还在测试，如果不需要请在 `daily_punch.yml` 中删除相关部分）
+
 ## 快速上手
 - 请先 Fork 本仓库
 - 在 `Settings`-`Secrets and Variables`-`Actions`-`Repository secrets`中添加以下三个 Secrets：
