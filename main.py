@@ -3,7 +3,7 @@ import os
 import sys
 
 def luogu_punch():
-    cookie_str="_uid=1269138; __client_id=yiczrj3i7byt2nxhkzdbz2c2p6dthokneq5nqsg6gnx3e74y; C3VK=873da2" # 这行自己改
+    cookie_str="_uid=1269138; __client_id=yiczrj3i7byt2nxhkzdbz2c2p6dthokneq5nqsg6gnx3e74y" # 这行自己改
     url="https://www.luogu.com.cn/index/ajax_punch"
     headers={
         "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
