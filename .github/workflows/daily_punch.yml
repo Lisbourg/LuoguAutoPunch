@@ -36,28 +36,10 @@ jobs:
     # 第四步：核心融合 (运行所有脚本 + 捕获日志)
     - name: Run Scripts & Capture Log
       id: punch-script
-      env:
-        # 注入所有的 Token/Cookie
-        LUOGU_COOKIE: ${{ secrets.LUOGU_COOKIE }}
-        JUEJIN_COOKIE: ${{ secrets.JUEJIN_COOKIE }}
-        PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
       run: |
         # 使用 { ... } 包裹，将内部所有输出合并处理
         {
-          echo "==============================================="
-          echo "🚀 1. 开始执行 洛谷打卡 (main.py)"
-          echo "==============================================="
-          # || echo 防止洛谷报错导致掘金不跑
-          python main.py || echo "❌ 洛谷脚本执行异常"
-
-          # 如果不需要掘金打卡请删除以下内容。
-          
-          echo -e "\n\n"
-          echo "==============================================="
-          echo "🚀 2. 开始执行 掘金打卡 (juejin.py)"
-          echo "==============================================="
-          python juejin.py || echo "❌ 掘金脚本执行异常"
-          
+          python main.py
         } 2>&1 | tee log.txt
         # 2>&1 | tee log.txt 的意思是：把屏幕上显示的字，同时保存一份到 log.txt
 
