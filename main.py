@@ -9,5 +9,6 @@ headers={
     "Referer":"https://www.luogu.com.cn/",
     "x-requested-with":"XMLHttpRequest" 
 }
-response= requests.get(url,headers=headers,timeout=30)
-print(response)
+if __name__ == "__main__":
+    response= requests.get(url,headers=headers,timeout=30)
+    print(response)
