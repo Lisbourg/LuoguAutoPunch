@@ -37,10 +37,7 @@ jobs:
     - name: Run Scripts & Capture Log
       id: punch-script
       run: |
-        # 使用 { ... } 包裹，将内部所有输出合并处理
-        {
-          python main.py
-        }
+        python -u main.py
     # 补充：时间获取。
     - name: Get Current Date
       id: date
