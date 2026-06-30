@@ -40,36 +40,7 @@ jobs:
         # 使用 { ... } 包裹，将内部所有输出合并处理
         {
           python main.py
-        } 2>&1 | tee log.txt
-        # 2>&1 | tee log.txt 的意思是：把屏幕上显示的字，同时保存一份到 log.txt
-
-    # 第五步：读取日志内容 (为发邮件做准备)
-    - name: Read log content
-      id: read_log
-      if: always() # 即使脚本报错，也要执行这步
-      run: |
-        if [ -f "log.txt" ]; then
-          # 读取日志前 50000 个字符
-          LOG_CONTENT=$(cat log.txt | head -c 50000)
-          # 写入输出变量
-          echo "log_content<<EOF" >> $GITHUB_OUTPUT
-          echo "$LOG_CONTENT" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-          echo "log_exists=true" >> $GITHUB_OUTPUT
-        else
-          echo "log_content=日志文件未生成" >> $GITHUB_OUTPUT
-          echo "log_exists=false" >> $GITHUB_OUTPUT
-        fi
-
-    # 第六步：上传日志文件 (方便在 GitHub 网页下载)
-    - name: Upload log file
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: punch-log
-        path: log.txt
-        retention-days: 7
-    
+        }
     # 补充：时间获取。
     - name: Get Current Date
       id: date
